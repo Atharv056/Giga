@@ -1,0 +1,886 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aether AI | Build Powerful AI Agents in Minutes</title>
+  <meta name="description" content="Aether AI is a world-class, premium platform to build, deploy, and collaborate with autonomous AI agents. Empower your workflow with Next-Gen models.">
+  
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- Ambient Backdrop Glows & Grids -->
+  <div class="ambient-glow">
+    <div class="glow-orb orb-1"></div>
+    <div class="glow-orb orb-2"></div>
+    <div class="glow-orb orb-3"></div>
+  </div>
+  <div class="grid-overlay"></div>
+  <div class="cursor-light" id="cursorLight"></div>
+
+  <!-- Header Navigation -->
+  <header class="navbar">
+    <div class="logo">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-atom"><circle cx="12" cy="12" r="1"/><path d="M16 12c0 2.2-1.8 4-4 4s-4-1.8-4-4 1.8-4 4-4 4 1.8 4 4z"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
+      Aether AI
+    </div>
+    <nav>
+      <ul class="nav-links">
+        <li><a href="#features">Features</a></li>
+        <li><a href="#agents">Showcase</a></li>
+        <li><a href="#chat-demo">Chat Demo</a></li>
+        <li><a href="#pricing">Pricing</a></li>
+        <li><a href="#faq">FAQ</a></li>
+      </ul>
+    </nav>
+    <div class="nav-actions">
+      <button class="search-trigger" id="navbarSearchBtn">
+        <i data-lucide="search" style="width: 14px; height: 14px;"></i>
+        <span>Search documentation...</span>
+        <kbd>⌘K</kbd>
+      </button>
+      <button class="btn-secondary" id="openCommandPaletteBtn2">Sign In</button>
+      <button class="btn-primary" onclick="showToast('Starting Free Trial...')">Get Started</button>
+    </div>
+    <button class="mobile-nav-toggle" id="mobileNavToggle" aria-label="Toggle Navigation">
+      <i data-lucide="menu" style="width: 24px; height: 24px;"></i>
+    </button>
+  </header>
+
+  <main>
+    <!-- Hero Section -->
+    <section class="hero">
+      <div class="badge">
+        <i data-lucide="sparkles" style="width: 12px; height: 12px;"></i>
+        Next-Gen Multi-Agent Systems
+      </div>
+      <h1>Build Powerful AI Agents<br>in Minutes</h1>
+      <p class="subheadline">
+        Empower your workflow with autonomous, collaborative AI agents that integrate with your code, analyze massive databases, and run business processes on autopilot.
+      </p>
+      
+      <div class="hero-cta">
+        <button class="btn-primary" onclick="showToast('Navigating to console...')">
+          Deploy Agent
+          <i data-lucide="arrow-right" style="width: 16px; height: 16px;"></i>
+        </button>
+        <button class="btn-secondary" onclick="document.getElementById('chat-demo').scrollIntoView({behavior: 'smooth'})">
+          Watch Interactive Demo
+        </button>
+      </div>
+
+      <!-- Futuristic App Dashboard Mockup -->
+      <div class="hero-mockup-wrapper reveal">
+        <div class="hero-mockup-glow"></div>
+        <div class="hero-mockup">
+          <div class="mockup-header">
+            <div class="mockup-controls">
+              <span class="mockup-dot red"></span>
+              <span class="mockup-dot yellow"></span>
+              <span class="mockup-dot green"></span>
+            </div>
+            <div class="mockup-tab-title">
+              aether-dashboard.app
+            </div>
+            <div>
+              <i data-lucide="maximize-2" style="width: 14px; height: 14px; color: var(--text-muted);"></i>
+            </div>
+          </div>
+          <div class="mockup-body">
+            <div class="mockup-sidebar-pane">
+              <div class="mockup-item active">
+                <i data-lucide="bar-chart-2" style="width: 14px; height: 14px; color: var(--accent-primary); margin-right: 0.5rem;"></i>
+                <div class="mockup-bar"></div>
+              </div>
+              <div class="mockup-item">
+                <i data-lucide="users" style="width: 14px; height: 14px; color: var(--text-muted); margin-right: 0.5rem;"></i>
+                <div class="mockup-bar"></div>
+              </div>
+              <div class="mockup-item">
+                <i data-lucide="settings" style="width: 14px; height: 14px; color: var(--text-muted); margin-right: 0.5rem;"></i>
+                <div class="mockup-bar"></div>
+              </div>
+            </div>
+            <div class="mockup-main-pane">
+              <div class="mockup-chart-container">
+                <div class="mockup-chart-bar" style="height: 30%;"></div>
+                <div class="mockup-chart-bar" style="height: 55%;"></div>
+                <div class="mockup-chart-bar" style="height: 40%;"></div>
+                <div class="mockup-chart-bar" style="height: 85%;"></div>
+                <div class="mockup-chart-bar" style="height: 60%;"></div>
+                <div class="mockup-chart-bar" style="height: 95%;"></div>
+              </div>
+              <div style="color: var(--text-muted); font-size: 0.75rem; display: flex; justify-content: space-between;">
+                <span>Active Agent Workers: 42</span>
+                <span>System Health: 100%</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Trusted By Logos -->
+    <section class="trusted-by">
+      <p>Trusted by industry leaders</p>
+      <div class="logos-container">
+        <div class="logo-item">
+          <i data-lucide="cpu" style="width: 20px; height: 20px;"></i>
+          NVIDIA
+        </div>
+        <div class="logo-item">
+          <i data-lucide="terminal" style="width: 20px; height: 20px;"></i>
+          OpenAI
+        </div>
+        <div class="logo-item">
+          <i data-lucide="globe" style="width: 20px; height: 20px;"></i>
+          Google
+        </div>
+        <div class="logo-item">
+          <i data-lucide="shield" style="width: 20px; height: 20px;"></i>
+          Microsoft
+        </div>
+        <div class="logo-item">
+          <i data-lucide="boxes" style="width: 20px; height: 20px;"></i>
+          Anthropic
+        </div>
+        <div class="logo-item">
+          <i data-lucide="database" style="width: 20px; height: 20px;"></i>
+          Meta
+        </div>
+      </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features" id="features">
+      <h2>Engineered for Premium Scaling</h2>
+      <p class="section-subtitle">
+        Everything you need to orchestrate state-of-the-art AI networks in a single workspace.
+      </p>
+      
+      <div class="features-grid">
+        <!-- Feature Card 1 -->
+        <div class="glass-panel feature-card reveal">
+          <div class="card-hover-glow"></div>
+          <div class="feature-icon-wrapper">
+            <i data-lucide="message-square" style="width: 24px; height: 24px;"></i>
+          </div>
+          <h3>AI Chat Assistant</h3>
+          <p>Context-aware conversational interface optimized for multi-turn task completion and streaming execution.</p>
+        </div>
+
+        <!-- Feature Card 2 -->
+        <div class="glass-panel feature-card reveal">
+          <div class="card-hover-glow"></div>
+          <div class="feature-icon-wrapper">
+            <i data-lucide="file-text" style="width: 24px; height: 24px;"></i>
+          </div>
+          <h3>AI Document Analysis</h3>
+          <p>Instantly ingest PDFs, spreadsheets, and markdown docs to query details and generate concise synthesis reports.</p>
+        </div>
+
+        <!-- Feature Card 3 -->
+        <div class="glass-panel feature-card reveal">
+          <div class="card-hover-glow"></div>
+          <div class="feature-icon-wrapper">
+            <i data-lucide="image" style="width: 24px; height: 24px;"></i>
+          </div>
+          <h3>AI Image Generation</h3>
+          <p>Deploy custom generative models to synthesize visual design layouts, mockups, or vector graphics instantly.</p>
+        </div>
+
+        <!-- Feature Card 4 -->
+        <div class="glass-panel feature-card reveal">
+          <div class="card-hover-glow"></div>
+          <div class="feature-icon-wrapper">
+            <i data-lucide="git-branch" style="width: 24px; height: 24px;"></i>
+          </div>
+          <h3>Workflow Automation</h3>
+          <p>Connect drag-and-drop triggers, visual flowcharts, and custom API endpoints to automate repetitive cycles.</p>
+        </div>
+
+        <!-- Feature Card 5 -->
+        <div class="glass-panel feature-card reveal">
+          <div class="card-hover-glow"></div>
+          <div class="feature-icon-wrapper">
+            <i data-lucide="network" style="width: 24px; height: 24px;"></i>
+          </div>
+          <h3>Multi-Agent Collaboration</h3>
+          <p>Let research, marketing, and coding agents debate ideas, review drafts, and execute pipeline tasks together.</p>
+        </div>
+
+        <!-- Feature Card 6 -->
+        <div class="glass-panel feature-card reveal">
+          <div class="card-hover-glow"></div>
+          <div class="feature-icon-wrapper">
+            <i data-lucide="puzzle" style="width: 24px; height: 24px;"></i>
+          </div>
+          <h3>API Integrations</h3>
+          <p>Connect seamlessly to Slack, GitHub, Linear, Notion, and databases using secure OAuth keychains.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- AI Agents Showcase Section -->
+    <section class="agents-showcase" id="agents">
+      <h2>Deploy Specialized AI Specialists</h2>
+      <p class="section-subtitle">
+        Click on any agent to load them directly into the interactive simulator workspace.
+      </p>
+
+      <div class="agents-grid">
+        <!-- Agent 1 -->
+        <div class="glass-panel agent-card reveal" onclick="loadAgent('Support Agent', '👤', 'Support')">
+          <div class="card-hover-glow"></div>
+          <div class="agent-header">
+            <div class="agent-icon">👤</div>
+            <div class="agent-status">Online</div>
+          </div>
+          <div class="agent-info">
+            <span class="badge">Support</span>
+            <h3 style="margin-top: 0.75rem;">Customer Support Agent</h3>
+            <p>Handles ticket routing, answers questions using internal documentation, and triggers refunds.</p>
+          </div>
+          <div class="agent-footer">
+            <button class="btn-secondary">Try Now</button>
+          </div>
+        </div>
+
+        <!-- Agent 2 -->
+        <div class="glass-panel agent-card reveal" onclick="loadAgent('Marketing Expert', '📈', 'Marketing')">
+          <div class="card-hover-glow"></div>
+          <div class="agent-header">
+            <div class="agent-icon">📈</div>
+            <div class="agent-status">Online</div>
+          </div>
+          <div class="agent-info">
+            <span class="badge">Marketing</span>
+            <h3 style="margin-top: 0.75rem;">Marketing Agent</h3>
+            <p>Generates content outlines, drafts landing page copies, and runs comparative ad studies.</p>
+          </div>
+          <div class="agent-footer">
+            <button class="btn-secondary">Try Now</button>
+          </div>
+        </div>
+
+        <!-- Agent 3 -->
+        <div class="glass-panel agent-card reveal" onclick="loadAgent('Coding Assistant', '💻', 'Development')">
+          <div class="card-hover-glow"></div>
+          <div class="agent-header">
+            <div class="agent-icon">💻</div>
+            <div class="agent-status">Online</div>
+          </div>
+          <div class="agent-info">
+            <span class="badge">Development</span>
+            <h3 style="margin-top: 0.75rem;">Coding Assistant</h3>
+            <p>Writes robust codebase modifications, refactors components, and drafts unit tests.</p>
+          </div>
+          <div class="agent-footer">
+            <button class="btn-secondary">Try Now</button>
+          </div>
+        </div>
+
+        <!-- Agent 4 -->
+        <div class="glass-panel agent-card reveal" onclick="loadAgent('Research Scholar', '🔬', 'Research')">
+          <div class="card-hover-glow"></div>
+          <div class="agent-header">
+            <div class="agent-icon">🔬</div>
+            <div class="agent-status">Online</div>
+          </div>
+          <div class="agent-info">
+            <span class="badge">Research</span>
+            <h3 style="margin-top: 0.75rem;">Research Agent</h3>
+            <p>Queries online search databases, cross-references citations, and formats academic digests.</p>
+          </div>
+          <div class="agent-footer">
+            <button class="btn-secondary">Try Now</button>
+          </div>
+        </div>
+
+        <!-- Agent 5 -->
+        <div class="glass-panel agent-card reveal" onclick="loadAgent('Finance Advisor', '💵', 'Finance')">
+          <div class="card-hover-glow"></div>
+          <div class="agent-header">
+            <div class="agent-icon">💵</div>
+            <div class="agent-status">Online</div>
+          </div>
+          <div class="agent-info">
+            <span class="badge">Finance</span>
+            <h3 style="margin-top: 0.75rem;">Finance Agent</h3>
+            <p>Calculates quarterly reports, parses spreadsheet balance statements, and highlights cost changes.</p>
+          </div>
+          <div class="agent-footer">
+            <button class="btn-secondary">Try Now</button>
+          </div>
+        </div>
+
+        <!-- Agent 6 -->
+        <div class="glass-panel agent-card reveal" onclick="loadAgent('HR Advisor', '🤝', 'Operations')">
+          <div class="card-hover-glow"></div>
+          <div class="agent-header">
+            <div class="agent-icon">🤝</div>
+            <div class="agent-status">Online</div>
+          </div>
+          <div class="agent-info">
+            <span class="badge">Operations</span>
+            <h3 style="margin-top: 0.75rem;">HR Assistant</h3>
+            <p>Screens inbound candidate resumes, handles initial FAQ cycles, and triggers scheduling invites.</p>
+          </div>
+          <div class="agent-footer">
+            <button class="btn-secondary">Try Now</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Interactive Chat Workspace (Try Now Section) -->
+    <section class="chat-demo" id="chat-demo">
+      <h2>Chat With Your AI Agent</h2>
+      <p class="section-subtitle">
+        Test driving our core multi-agent playground. Type a prompt or load a specialist to see streaming execution.
+      </p>
+
+      <div class="chat-container glass-panel reveal">
+        
+        <!-- Left Sidebar -->
+        <div class="chat-sidebar">
+          <div class="sidebar-top">
+            <div class="sidebar-title">Recent Chats</div>
+            <ul class="sidebar-menu">
+              <li class="sidebar-item active" onclick="loadChat(0)">
+                <i data-lucide="message-square" style="width: 14px; height: 14px;"></i>
+                <span>Database Syncer</span>
+              </li>
+              <li class="sidebar-item" onclick="loadChat(1)">
+                <i data-lucide="message-square" style="width: 14px; height: 14px;"></i>
+                <span>Design System CSS</span>
+              </li>
+              <li class="sidebar-item" onclick="loadChat(2)">
+                <i data-lucide="message-square" style="width: 14px; height: 14px;"></i>
+                <span>API Routing Bug</span>
+              </li>
+            </ul>
+
+            <div class="sidebar-title" style="margin-top: 1rem;">System Nodes</div>
+            <ul class="sidebar-menu">
+              <li class="sidebar-item" onclick="document.getElementById('agents').scrollIntoView({behavior: 'smooth'})">
+                <i data-lucide="users" style="width: 14px; height: 14px;"></i>
+                <span>AI Agents</span>
+              </li>
+              <li class="sidebar-item" onclick="showToast('Viewed Favorites')">
+                <i data-lucide="star" style="width: 14px; height: 14px;"></i>
+                <span>Favorites</span>
+              </li>
+            </ul>
+          </div>
+          <div class="sidebar-bottom">
+            <div class="sidebar-item" onclick="showToast('Opening workspace settings...')">
+              <i data-lucide="settings" style="width: 14px; height: 14px;"></i>
+              <span>Settings</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Chat Workspace Core -->
+        <div class="chat-main">
+          
+          <!-- Topbar -->
+          <div class="chat-topbar">
+            <div class="chat-agent-info">
+              <div class="chat-agent-avatar" id="currentAgentAvatar">💻</div>
+              <div class="chat-agent-details">
+                <h4 id="currentAgentName">Coding Assistant</h4>
+                <div style="display: flex; align-items: center; gap: 0.25rem; font-size: 0.7rem; color: var(--accent-success);">
+                  <span style="width: 6px; height: 6px; border-radius: 50%; background: var(--accent-success); display: inline-block;"></span>
+                  Online
+                </div>
+              </div>
+            </div>
+            
+            <div class="chat-topbar-actions">
+              <select class="model-selector" id="modelSelector">
+                <option value="aether-3.5-pro">Aether 3.5 Pro</option>
+                <option value="aether-3.5-flash">Aether 3.5 Flash</option>
+                <option value="aether-deepthink">DeepThink R1</option>
+              </select>
+              <button class="model-selector" onclick="showToast('Share link copied to clipboard!')">
+                <i data-lucide="share-2" style="width: 12px; height: 12px;"></i>
+                <span>Share</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Messages Container -->
+          <div class="chat-messages" id="chatMessages">
+            <!-- Initial Messages -->
+            <div class="message ai">
+              <div class="message-avatar">💻</div>
+              <div class="message-content">
+                <p>Hello! I am your <strong>Coding Assistant</strong> agent. I have loaded into your active workspace.</p>
+                <p>How can I help you write or debug code today?</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Upload and Attachment Chip Tray -->
+          <div class="attachment-preview" id="attachmentPreview" style="display: none;"></div>
+
+          <!-- Thinking status loader -->
+          <div class="thinking-indicator" id="thinkingIndicator" style="display: none;">
+            <div class="thinking-dots">
+              <span></span>
+              <span></span>
+              <span></span>
+            </div>
+            <span>Agent is thinking...</span>
+          </div>
+
+          <!-- Prompt Form Area -->
+          <div class="chat-input-area">
+            <form class="chat-input-wrapper" id="chatForm">
+              <input type="text" id="chatInput" placeholder="Ask anything..." autocomplete="off">
+              <div class="chat-input-actions">
+                <!-- Emoji Button Toggle -->
+                <button type="button" class="chat-input-btn" id="emojiToggleBtn" aria-label="Toggle emoji picker">
+                  <i data-lucide="smile" style="width: 18px; height: 18px;"></i>
+                </button>
+                
+                <!-- Attachment File Upload -->
+                <button type="button" class="chat-input-btn" id="attachmentBtn" aria-label="Attach document or PDF">
+                  <i data-lucide="paperclip" style="width: 18px; height: 18px;"></i>
+                </button>
+                <input type="file" id="hiddenFileInput" style="display: none;" accept=".pdf,.doc,.docx,.png,.jpg,.jpeg,.zip,.json">
+
+                <!-- Voice Recording Indicator Toggle -->
+                <button type="button" class="chat-input-btn" id="voiceRecBtn" aria-label="Start voice input">
+                  <i data-lucide="mic" style="width: 18px; height: 18px;"></i>
+                </button>
+
+                <!-- Send Button -->
+                <button type="submit" class="btn-send" id="sendBtn">
+                  <i data-lucide="send" style="width: 16px; height: 16px;"></i>
+                </button>
+              </div>
+            </form>
+          </div>
+
+          <!-- Popover Emoji Picker -->
+          <div class="emoji-picker-popover" id="emojiPicker" style="display: none;">
+            <button class="emoji-btn" onclick="insertEmoji('💡')">💡</button>
+            <button class="emoji-btn" onclick="insertEmoji('🚀')">🚀</button>
+            <button class="emoji-btn" onclick="insertEmoji('🔥')">🔥</button>
+            <button class="emoji-btn" onclick="insertEmoji('✨')">✨</button>
+            <button class="emoji-btn" onclick="insertEmoji('🛡️')">🛡️</button>
+            <button class="emoji-btn" onclick="insertEmoji('🛠️')">🛠️</button>
+            <button class="emoji-btn" onclick="insertEmoji('📈')">📈</button>
+            <button class="emoji-btn" onclick="insertEmoji('✅')">✅</button>
+            <button class="emoji-btn" onclick="insertEmoji('🤔')">🤔</button>
+            <button class="emoji-btn" onclick="insertEmoji('🤝')">🤝</button>
+            <button class="emoji-btn" onclick="insertEmoji('🎉')">🎉</button>
+            <button class="emoji-btn" onclick="insertEmoji('💻')">💻</button>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- Statistics Section -->
+    <section class="stats">
+      <div class="stats-grid">
+        <div class="stat-card reveal">
+          <div class="stat-number" data-target="100000">0</div>
+          <div class="stat-label">Global Active Users</div>
+        </div>
+        <div class="stat-card reveal">
+          <div class="stat-number" data-target="20000000">0</div>
+          <div class="stat-label">Conversations Orchestrated</div>
+        </div>
+        <div class="stat-card reveal">
+          <div class="stat-number" data-target="99.9">0</div>
+          <div class="stat-label">Uptime SLA Guaranteed</div>
+        </div>
+        <div class="stat-card reveal">
+          <div class="stat-number" data-target="500">0</div>
+          <div class="stat-label">Tool Integrations Connected</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="testimonials">
+      <h2>Orchestrated Success Stories</h2>
+      <p class="section-subtitle">
+        See how leading developer teams and hypergrowth tech startups leverage Aether Agent networks.
+      </p>
+
+      <div class="testimonials-wrapper reveal">
+        <button class="carousel-btn prev" id="prevSlide" aria-label="Previous Slide">
+          <i data-lucide="chevron-left" style="width: 20px; height: 20px;"></i>
+        </button>
+        
+        <div class="carousel-container">
+          <div class="carousel-track" id="carouselTrack">
+            <!-- Slide 1 -->
+            <div class="testimonial-slide">
+              <div class="testimonial-rating">
+                <i data-lucide="star" fill="currentColor"></i>
+                <i data-lucide="star" fill="currentColor"></i>
+                <i data-lucide="star" fill="currentColor"></i>
+                <i data-lucide="star" fill="currentColor"></i>
+                <i data-lucide="star" fill="currentColor"></i>
+              </div>
+              <p class="testimonial-quote">
+                "Deploying Aether Coding and Support agents cut down our software bug queue times by 73%. They run code edits autonomously, verify builds, and answer support chats seamlessly."
+              </p>
+              <div class="testimonial-user">
+                <div class="agent-icon">👩‍💻</div>
+                <div class="testimonial-details">
+                  <div class="testimonial-name">Sarah Chen</div>
+                  <div class="testimonial-company">Lead Engineer, Linear Flow</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Slide 2 -->
+            <div class="testimonial-slide">
+              <div class="testimonial-rating">
+                <i data-lucide="star" fill="currentColor"></i>
+                <i data-lucide="star" fill="currentColor"></i>
+                <i data-lucide="star" fill="currentColor"></i>
+                <i data-lucide="star" fill="currentColor"></i>
+                <i data-lucide="star" fill="currentColor"></i>
+              </div>
+              <p class="testimonial-quote">
+                "We set up 5 collaborative agents to automate our marketing analytics pipeline. The Research Agent crawls, the Marketing Agent designs copy templates, and the Finance Agent outputs spend summaries."
+              </p>
+              <div class="testimonial-user">
+                <div class="agent-icon">🚀</div>
+                <div class="testimonial-details">
+                  <div class="testimonial-name">Marcus Vance</div>
+                  <div class="testimonial-company">Growth Director, Vercel Hub</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Slide 3 -->
+            <div class="testimonial-slide">
+              <div class="testimonial-rating">
+                <i data-lucide="star" fill="currentColor"></i>
+                <i data-lucide="star" fill="currentColor"></i>
+                <i data-lucide="star" fill="currentColor"></i>
+                <i data-lucide="star" fill="currentColor"></i>
+                <i data-lucide="star" fill="currentColor"></i>
+              </div>
+              <p class="testimonial-quote">
+                "Setting up custom keychains and connecting our internal HR APIs with Aether took less than 15 minutes. It screens candidate CVs and automates interview slot notifications instantly."
+              </p>
+              <div class="testimonial-user">
+                <div class="agent-icon">🤝</div>
+                <div class="testimonial-details">
+                  <div class="testimonial-name">Elena Rostova</div>
+                  <div class="testimonial-company">Operations Lead, Notion Lab</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <button class="carousel-btn next" id="nextSlide" aria-label="Next Slide">
+          <i data-lucide="chevron-right" style="width: 20px; height: 20px;"></i>
+        </button>
+
+        <div class="carousel-dots" id="carouselDots"></div>
+      </div>
+    </section>
+
+    <!-- Pricing Preview Section -->
+    <section class="pricing" id="pricing">
+      <h2>Sleek, Scalable Plans</h2>
+      <p class="section-subtitle">
+        Choose a workspace plan that suits your developer cycle, with no hidden commitments.
+      </p>
+
+      <div class="pricing-grid">
+        <!-- Card 1: Free -->
+        <div class="glass-panel pricing-card reveal">
+          <div class="pricing-header">
+            <h3>Sandbox Starter</h3>
+            <p>Perfect for testing basic prompt actions and setting up 1 custom agent.</p>
+          </div>
+          <div>
+            <div class="pricing-price">
+              $0
+              <span>/month</span>
+            </div>
+            <ul class="pricing-features">
+              <li>
+                <i data-lucide="check" style="width: 16px; height: 16px;"></i>
+                <span>1 Active Agent Worker</span>
+              </li>
+              <li>
+                <i data-lucide="check" style="width: 16px; height: 16px;"></i>
+                <span>100 prompt runs per month</span>
+              </li>
+              <li>
+                <i data-lucide="check" style="width: 16px; height: 16px;"></i>
+                <span>Aether 3.5 Flash Model access</span>
+              </li>
+              <li style="opacity: 0.5;">
+                <i data-lucide="x" style="width: 16px; height: 16px; stroke: var(--text-muted);"></i>
+                <span>Multi-agent collaboration</span>
+              </li>
+            </ul>
+          </div>
+          <button class="btn-secondary" onclick="showToast('Loaded Sandbox starter dashboard')">Deploy Starter</button>
+        </div>
+
+        <!-- Card 2: Pro -->
+        <div class="glass-panel pricing-card popular reveal">
+          <div class="popular-badge">Popular</div>
+          <div class="pricing-header">
+            <h3>Developer Pro</h3>
+            <p>Optimize pipelines with unlimited prompt tokens and concurrent agency runs.</p>
+          </div>
+          <div>
+            <div class="pricing-price">
+              $49
+              <span>/month</span>
+            </div>
+            <ul class="pricing-features">
+              <li>
+                <i data-lucide="check" style="width: 16px; height: 16px;"></i>
+                <span>15 Active concurrent Agents</span>
+              </li>
+              <li>
+                <i data-lucide="check" style="width: 16px; height: 16px;"></i>
+                <span>Unlimited tokens / queries</span>
+              </li>
+              <li>
+                <i data-lucide="check" style="width: 16px; height: 16px;"></i>
+                <span>Full access to Aether 3.5 Pro</span>
+              </li>
+              <li>
+                <i data-lucide="check" style="width: 16px; height: 16px;"></i>
+                <span>Multi-agent workspace loops</span>
+              </li>
+              <li>
+                <i data-lucide="check" style="width: 16px; height: 16px;"></i>
+                <span>Custom API Webhook triggers</span>
+              </li>
+            </ul>
+          </div>
+          <button class="btn-primary" onclick="showToast('Redirecting to stripe checkout...')">Start 14-day Free Trial</button>
+        </div>
+
+        <!-- Card 3: Enterprise -->
+        <div class="glass-panel pricing-card reveal">
+          <div class="pricing-header">
+            <h3>Enterprise Scale</h3>
+            <p>Custom security SLAs, local VPC deployments, and dedicated models.</p>
+          </div>
+          <div>
+            <div class="pricing-price">
+              Custom
+            </div>
+            <ul class="pricing-features">
+              <li>
+                <i data-lucide="check" style="width: 16px; height: 16px;"></i>
+                <span>Unlimited Agent deployments</span>
+              </li>
+              <li>
+                <i data-lucide="check" style="width: 16px; height: 16px;"></i>
+                <span>Private VPC database connections</span>
+              </li>
+              <li>
+                <i data-lucide="check" style="width: 16px; height: 16px;"></i>
+                <span>DeepThink R1 local fine-tuning</span>
+              </li>
+              <li>
+                <i data-lucide="check" style="width: 16px; height: 16px;"></i>
+                <span>Dedicated support engineer SLA</span>
+              </li>
+            </ul>
+          </div>
+          <button class="btn-secondary" onclick="showToast('Connecting to sales queue...')">Contact Sales</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ Accordion Section -->
+    <section class="faq" id="faq">
+      <h2 style="margin-bottom: 3rem;">Frequently Asked Questions</h2>
+      
+      <div class="faq-container">
+        <!-- FAQ 1 -->
+        <div class="faq-item reveal">
+          <button class="faq-question">
+            <span>How do Aether AI agents connect to my databases?</span>
+            <i data-lucide="chevron-down" style="width: 18px; height: 18px;"></i>
+          </button>
+          <div class="faq-answer">
+            <div class="faq-answer-inner">
+              Our workspace keychain securely connects to PostgreSQL, MongoDB, Snowflake, and general vector databases via encrypted API keys. In addition, Pro and Enterprise plans allow database deployment inside private VPC layers using restricted ingress nodes.
+            </div>
+          </div>
+        </div>
+
+        <!-- FAQ 2 -->
+        <div class="faq-item reveal">
+          <button class="faq-question">
+            <span>Can multi-agents talk directly to each other?</span>
+            <i data-lucide="chevron-down" style="width: 18px; height: 18px;"></i>
+          </button>
+          <div class="faq-answer">
+            <div class="faq-answer-inner">
+              Yes, our platform supports multi-agent loop orchestrations. When configured, agents share a centralized message queue, letting one agent's file outputs serve as the instruction input for another agent recursively, resolving complex pipelines without manual routing.
+            </div>
+          </div>
+        </div>
+
+        <!-- FAQ 3 -->
+        <div class="faq-item reveal">
+          <button class="faq-question">
+            <span>What model providers support Aether AI?</span>
+            <i data-lucide="chevron-down" style="width: 18px; height: 18px;"></i>
+          </button>
+          <div class="faq-answer">
+            <div class="faq-answer-inner">
+              We host fine-tuned developer models trained on Llama-3, Claude-3.5, GPT-4o, and DeepThink R1. You can toggle the primary model in the workspace panel at any time or bring your own API key to query external custom fine-tunes.
+            </div>
+          </div>
+        </div>
+
+        <!-- FAQ 4 -->
+        <div class="faq-item reveal">
+          <button class="faq-question">
+            <span>Is there a self-hosted VPC deployment option?</span>
+            <i data-lucide="chevron-down" style="width: 18px; height: 18px;"></i>
+          </button>
+          <div class="faq-answer">
+            <div class="faq-answer-inner">
+              Yes! For enterprise tier customers, we support isolated containerized orchestrations deployed via Helm Charts to AWS, GCP, Azure, or private kubernetes layers, complying with strict local security standards.
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer Section -->
+  <footer class="footer">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="logo">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-atom"><circle cx="12" cy="12" r="1"/><path d="M16 12c0 2.2-1.8 4-4 4s-4-1.8-4-4 1.8-4 4-4 4 1.8 4 4z"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
+          Aether AI
+        </div>
+        <p>Deploy specialized multi-agent cycles on secure SaaS nodes in minutes.</p>
+      </div>
+      
+      <div class="footer-col">
+        <h4>Product</h4>
+        <ul>
+          <li><a href="#features">Features</a></li>
+          <li><a href="#agents">Agents Showcase</a></li>
+          <li><a href="#chat-demo">Chat Simulator</a></li>
+          <li><a href="#pricing">Pricing</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Resources</h4>
+        <ul>
+          <li><a href="#" onclick="showToast('Opening Docs...')">Documentation</a></li>
+          <li><a href="#" onclick="showToast('Opening API Reference...')">API Reference</a></li>
+          <li><a href="#" onclick="showToast('Opening Guides...')">Agent Tutorials</a></li>
+          <li><a href="#" onclick="showToast('Opening Changelog...')">Changelog</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Community</h4>
+        <ul>
+          <li><a href="#" onclick="showToast('Opening Discord...')">Discord Server</a></li>
+          <li><a href="#" onclick="showToast('Opening GitHub...')">GitHub Repo</a></li>
+          <li><a href="#" onclick="showToast('Opening Twitter...')">Twitter / X</a></li>
+          <li><a href="#" onclick="showToast('Opening Blog...')">Tech Blog</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Contact</h4>
+        <ul>
+          <li><a href="#" onclick="showToast('Opening support ticket queue...')">Help Desk</a></li>
+          <li><a href="#" onclick="showToast('Contacting sales inbox...')">Sales Team</a></li>
+          <li><a href="#" onclick="showToast('Opening system status details...')">System Status</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <div>&copy; 2026 Aether AI Inc. All rights reserved. Designed for world-class SaaS scaling.</div>
+      <div class="social-links">
+        <a href="#" aria-label="Twitter"><i data-lucide="twitter" style="width: 18px; height: 18px;"></i></a>
+        <a href="#" aria-label="GitHub"><i data-lucide="github" style="width: 18px; height: 18px;"></i></a>
+        <a href="#" aria-label="Discord"><i data-lucide="message-square" style="width: 18px; height: 18px;"></i></a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Command Palette Modal Dialog -->
+  <div class="cmd-overlay" id="cmdOverlay"></div>
+  <div class="cmd-palette" id="cmdPalette">
+    <div class="cmd-header">
+      <i data-lucide="search" style="width: 18px; height: 18px;"></i>
+      <input type="text" id="cmdSearchInput" placeholder="Search commands, agents, settings..." autocomplete="off">
+      <kbd>ESC</kbd>
+    </div>
+    <ul class="cmd-list" id="cmdList">
+      <li class="cmd-item selected" onclick="cmdRun('deploy-agent')">
+        <div class="cmd-item-left">
+          <i data-lucide="plus-circle" style="width: 14px; height: 14px;"></i>
+          <span>Deploy New Agent Worker</span>
+        </div>
+        <kbd>⌘N</kbd>
+      </li>
+      <li class="cmd-item" onclick="cmdRun('toggle-model')">
+        <div class="cmd-item-left">
+          <i data-lucide="cpu" style="width: 14px; height: 14px;"></i>
+          <span>Toggle Workspace Model...</span>
+        </div>
+        <kbd>⌘M</kbd>
+      </li>
+      <li class="cmd-item" onclick="cmdRun('view-docs')">
+        <div class="cmd-item-left">
+          <i data-lucide="file-text" style="width: 14px; height: 14px;"></i>
+          <span>Search Agent Documentation</span>
+        </div>
+        <kbd>⌘D</kbd>
+      </li>
+      <li class="cmd-item" onclick="cmdRun('clear-chat')">
+        <div class="cmd-item-left">
+          <i data-lucide="trash-2" style="width: 14px; height: 14px;"></i>
+          <span>Clear Active Chat Logs</span>
+        </div>
+        <kbd>⌘K</kbd>
+      </li>
+      <li class="cmd-item" onclick="cmdRun('settings')">
+        <div class="cmd-item-left">
+          <i data-lucide="settings" style="width: 14px; height: 14px;"></i>
+          <span>Open Workspace Settings</span>
+        </div>
+        <kbd>⌘S</kbd>
+      </li>
+    </ul>
+  </div>
+
+  <!-- Toast Notification System -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <!-- scripts -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
