@@ -1,16 +1,13 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Aether AI — Model Studio</title>
-  <meta name="description"
-    content="Chat with Aether, a high-performance multimodal AI model built for reasoning, code, and real-world intelligence.">
+  <meta name="description" content="Chat with Aether, a high-performance multimodal AI model">
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link
-    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
-    rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <style>
     *,
     *::before,
@@ -21,21 +18,29 @@
     }
 
     :root {
-      --sidebar-width: 240px;
-      --sidebar-collapsed: 0px;
       --bg: #000000;
-      --bg-sidebar: #0a0a0a;
-      --bg-hover: #1a1a1a;
-      --bg-active: #1f1f1f;
-      --bg-input: #111111;
-      --border: rgba(255, 255, 255, 0.07);
+      --bg-secondary: #09090b;
+      --bg-tertiary: #18181b;
+      --bg-hover: #27272a;
+      --border: rgba(63, 63, 70, 0.6);
       --text-primary: #ffffff;
       --text-secondary: #a1a1aa;
-      --text-muted: #52525b;
+      --text-muted: #71717a;
       --accent: #ffffff;
       --font: 'Inter', -apple-system, sans-serif;
-      --mono: 'JetBrains Mono', monospace;
       --transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    html[data-theme="light"] {
+      --bg: #ffffff;
+      --bg-secondary: #f4f4f5;
+      --bg-tertiary: #e4e4e7;
+      --bg-hover: #d4d4d8;
+      --border: rgba(212, 212, 216, 0.8);
+      --text-primary: #18181b;
+      --text-secondary: #52525b;
+      --text-muted: #a1a1aa;
+      --accent: #000000;
     }
 
     html,
@@ -48,339 +53,49 @@
       overflow: hidden;
     }
 
-    /* ===== LAYOUT ===== */
+    /* ===== APP LAYOUT ===== */
     .app {
       display: flex;
+      flex-direction: column;
       height: 100vh;
       width: 100vw;
       overflow: hidden;
     }
 
-    /* ===== SIDEBAR ===== */
-    .sidebar {
-      width: var(--sidebar-width);
-      min-width: var(--sidebar-width);
-      background: var(--bg-sidebar);
-      border-right: 1px solid var(--border);
-      display: flex;
-      flex-direction: column;
-      height: 100vh;
-      overflow: hidden;
-      transition: width var(--transition), min-width var(--transition);
-      position: relative;
-      z-index: 10;
-    }
-
-    .sidebar.collapsed {
-      width: 0;
-      min-width: 0;
-      border-right: none;
-    }
-
-    .sidebar-inner {
-      width: var(--sidebar-width);
-      min-width: var(--sidebar-width);
-      display: flex;
-      flex-direction: column;
-      height: 100%;
-      overflow: hidden;
-    }
-
-    /* Sidebar top bar */
-    .sidebar-topbar {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 16px 14px 12px 16px;
-      flex-shrink: 0;
-    }
-
-    .sidebar-logo {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      cursor: pointer;
-      text-decoration: none;
-    }
-
-    .sidebar-logo svg {
-      width: 22px;
-      height: 22px;
-      fill: white;
-    }
-
-    .collapse-btn {
-      background: none;
-      border: none;
-      color: var(--text-muted);
-      cursor: pointer;
-      padding: 4px;
-      border-radius: 6px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: background var(--transition), color var(--transition);
-    }
-
-    .collapse-btn:hover {
-      background: var(--bg-hover);
-      color: var(--text-secondary);
-    }
-
-    /* Nav items */
-    .sidebar-nav {
-      padding: 4px 8px;
-      display: flex;
-      flex-direction: column;
-      gap: 1px;
-      flex-shrink: 0;
-    }
-
-    .nav-item {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 8px 10px;
-      border-radius: 8px;
-      font-size: 14px;
-      font-weight: 500;
-      color: var(--text-secondary);
-      cursor: pointer;
-      transition: background var(--transition), color var(--transition);
-      white-space: nowrap;
-      position: relative;
-      user-select: none;
-    }
-
-    .nav-item:hover {
-      background: var(--bg-hover);
-      color: var(--text-primary);
-    }
-
-    .nav-item.active {
-      background: var(--bg-active);
-      color: var(--text-primary);
-    }
-
-    .nav-item svg {
-      width: 16px;
-      height: 16px;
-      flex-shrink: 0;
-      opacity: 0.7;
-    }
-
-    .nav-item.active svg {
-      opacity: 1;
-    }
-
-    .nav-dot {
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      background: #3b82f6;
-      position: absolute;
-      right: 10px;
-    }
-
-    /* Sidebar sections */
-    .sidebar-section {
-      padding: 0 8px;
-      margin-top: 12px;
-      flex-shrink: 0;
-    }
-
-    .section-header {
-      display: flex;
-      align-items: center;
-      gap: 4px;
-      padding: 4px 10px;
-      font-size: 12px;
-      font-weight: 600;
-      color: var(--text-muted);
-      cursor: pointer;
-      border-radius: 6px;
-      transition: color var(--transition);
-      user-select: none;
-    }
-
-    .section-header:hover {
-      color: var(--text-secondary);
-    }
-
-    .section-header svg {
-      width: 12px;
-      height: 12px;
-      transition: transform var(--transition);
-    }
-
-    .section-header.open svg {
-      transform: rotate(180deg);
-    }
-
-    .section-action {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      padding: 6px 10px;
-      font-size: 13px;
-      color: var(--text-muted);
-      cursor: pointer;
-      border-radius: 8px;
-      transition: background var(--transition), color var(--transition);
-      white-space: nowrap;
-    }
-
-    .section-action:hover {
-      background: var(--bg-hover);
-      color: var(--text-secondary);
-    }
-
-    /* History */
-    .history-list {
-      flex: 1;
-      overflow-y: auto;
-      padding: 0 8px;
-      scrollbar-width: thin;
-      scrollbar-color: rgba(255, 255, 255, 0.1) transparent;
-    }
-
-    .history-list::-webkit-scrollbar {
-      width: 4px;
-    }
-
-    .history-list::-webkit-scrollbar-thumb {
-      background: rgba(255, 255, 255, 0.1);
-      border-radius: 2px;
-    }
-
-    .history-item {
-      padding: 6px 10px;
-      font-size: 13px;
-      color: var(--text-muted);
-      border-radius: 8px;
-      cursor: pointer;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      transition: background var(--transition), color var(--transition);
-    }
-
-    .history-item:hover {
-      background: var(--bg-hover);
-      color: var(--text-secondary);
-    }
-
-    .see-all {
-      padding: 6px 10px;
-      font-size: 13px;
-      color: var(--text-muted);
-      cursor: pointer;
-      border-radius: 8px;
-      display: inline-block;
-      transition: color var(--transition);
-      margin: 4px 8px;
-    }
-
-    .see-all:hover {
-      color: var(--text-secondary);
-    }
-
-    /* User profile at bottom */
-    .sidebar-user {
-      padding: 12px 10px 16px 10px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      cursor: pointer;
-      border-radius: 8px;
-      margin: 0 8px;
-      transition: background var(--transition);
-      flex-shrink: 0;
-    }
-
-    .sidebar-user:hover {
-      background: var(--bg-hover);
-    }
-
-    .user-avatar {
-      width: 32px;
-      height: 32px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, #374151, #1f2937);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 12px;
-      font-weight: 700;
-      color: white;
-      flex-shrink: 0;
-      border: 1px solid rgba(255, 255, 255, 0.1);
-    }
-
-    .user-info {
-      overflow: hidden;
-    }
-
-    .user-name {
-      font-size: 13px;
-      font-weight: 600;
-      color: var(--text-primary);
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-
-    .user-email {
-      font-size: 11px;
-      color: var(--text-muted);
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-
-    /* ===== MAIN AREA ===== */
-    .main {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      height: 100vh;
-      overflow: hidden;
-      position: relative;
-      background: var(--bg);
-    }
-
-    /* Top bar */
+    /* ===== TOP BAR ===== */
     .topbar {
       display: flex;
       align-items: center;
       justify-content: space-between;
       padding: 12px 20px;
+      height: 60px;
       flex-shrink: 0;
-      height: 52px;
     }
 
     .topbar-left {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 8px;
     }
 
-    .expand-btn {
-      background: none;
-      border: none;
-      color: var(--text-muted);
-      cursor: pointer;
-      padding: 6px;
-      border-radius: 6px;
+    .topbar-logo {
       display: flex;
       align-items: center;
-      justify-content: center;
-      transition: background var(--transition), color var(--transition);
+      gap: 8px;
+      cursor: pointer;
+      padding: 6px 10px;
+      border-radius: 8px;
+      transition: background var(--transition);
     }
 
-    .expand-btn:hover {
-      background: var(--bg-hover);
-      color: var(--text-secondary);
+    .topbar-logo:hover {
+      background: var(--bg-secondary);
+    }
+
+    .topbar-logo svg {
+      width: 24px;
+      height: 24px;
+      fill: var(--text-primary);
     }
 
     .topbar-right {
@@ -389,29 +104,47 @@
       gap: 8px;
     }
 
-    .private-btn {
+    .topbar-btn {
+      background: none;
+      border: none;
+      color: var(--text-secondary);
+      cursor: pointer;
+      padding: 8px 12px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 500;
+      font-family: var(--font);
       display: flex;
       align-items: center;
       gap: 6px;
-      padding: 6px 14px;
-      background: none;
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      color: var(--text-secondary);
-      font-size: 13px;
-      font-weight: 500;
-      cursor: pointer;
-      font-family: var(--font);
-      transition: background var(--transition), border-color var(--transition), color var(--transition);
+      transition: background var(--transition), color var(--transition);
     }
 
-    .private-btn:hover {
-      background: var(--bg-hover);
-      border-color: rgba(255, 255, 255, 0.15);
+    .topbar-btn:hover {
+      background: var(--bg-secondary);
       color: var(--text-primary);
     }
 
-    /* Chat area */
+    .topbar-btn svg {
+      width: 16px;
+      height: 16px;
+    }
+
+    .topbar-avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      font-weight: 600;
+      color: white;
+      cursor: pointer;
+    }
+
+    /* ===== MAIN CHAT AREA ===== */
     .chat-area {
       flex: 1;
       display: flex;
@@ -420,71 +153,71 @@
       position: relative;
     }
 
-    /* Center welcome */
+    /* WELCOME SCREEN */
     .welcome {
       flex: 1;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      padding: 40px 20px 0;
-      gap: 32px;
+      padding: 20px;
+      gap: 40px;
       transition: opacity 0.3s ease;
     }
 
     .welcome.hidden {
       opacity: 0;
       pointer-events: none;
+      display: none;
     }
 
     .welcome-logo {
       display: flex;
       align-items: center;
-      gap: 14px;
+      gap: 12px;
     }
 
     .welcome-logo svg {
-      width: 48px;
-      height: 48px;
-      fill: white;
-      filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.15));
+      width: 56px;
+      height: 56px;
+      fill: var(--text-primary);
     }
 
     .welcome-logo-text {
-      font-size: 2.8rem;
+      font-size: 3.2rem;
       font-weight: 700;
-      color: white;
-      letter-spacing: -0.03em;
+      color: var(--text-primary);
+      letter-spacing: -0.04em;
     }
 
-    /* Suggestion pills */
     .suggestions {
       display: flex;
       flex-wrap: wrap;
-      gap: 8px;
+      gap: 10px;
       justify-content: center;
-      max-width: 680px;
+      max-width: 720px;
     }
 
     .suggestion-pill {
-      padding: 8px 16px;
-      background: var(--bg-input);
+      padding: 10px 16px;
+      background: var(--bg-secondary);
       border: 1px solid var(--border);
       border-radius: 9999px;
-      font-size: 13px;
+      font-size: 14px;
       color: var(--text-secondary);
       cursor: pointer;
-      transition: background var(--transition), border-color var(--transition), color var(--transition);
+      transition: background var(--transition), border-color var(--transition), color var(--transition), transform 0.1s;
       white-space: nowrap;
     }
 
     .suggestion-pill:hover {
-      background: var(--bg-hover);
-      border-color: rgba(255, 255, 255, 0.15);
+      background: var(--bg-tertiary);
+      border-color: var(--text-muted);
       color: var(--text-primary);
+      transform: translateY(-1px);
     }
 
-    /* Messages container */
+    /* MESSAGES */
     .messages {
       flex: 1;
       overflow-y: auto;
@@ -493,7 +226,7 @@
       flex-direction: column;
       gap: 24px;
       scrollbar-width: thin;
-      scrollbar-color: rgba(255, 255, 255, 0.1) transparent;
+      scrollbar-color: var(--border) transparent;
       max-width: 760px;
       margin: 0 auto;
       width: 100%;
@@ -504,15 +237,14 @@
     }
 
     .messages::-webkit-scrollbar-thumb {
-      background: rgba(255, 255, 255, 0.1);
+      background: var(--border);
       border-radius: 2px;
     }
 
-    /* Message bubbles */
     .message {
       display: flex;
       flex-direction: column;
-      gap: 6px;
+      gap: 8px;
       animation: fadeUp 0.3s ease-out forwards;
     }
 
@@ -535,15 +267,15 @@
 
     .message-bubble {
       max-width: 85%;
-      padding: 12px 16px;
-      border-radius: 14px;
-      font-size: 14px;
-      line-height: 1.65;
+      padding: 14px 18px;
+      border-radius: 16px;
+      font-size: 15px;
+      line-height: 1.6;
     }
 
     .message.user .message-bubble {
-      background: #1a1a1a;
-      border: 1px solid rgba(255, 255, 255, 0.1);
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
       color: var(--text-primary);
       border-bottom-right-radius: 4px;
     }
@@ -555,24 +287,24 @@
     }
 
     .message.ai .message-bubble p {
-      margin-bottom: 10px;
+      margin-bottom: 12px;
     }
 
     .message.ai .message-bubble p:last-child {
       margin-bottom: 0;
     }
 
-    /* Thinking dots */
+    /* THINKING INDICATOR */
     .thinking {
       display: flex;
       align-items: center;
-      gap: 4px;
-      padding: 4px;
+      gap: 5px;
+      padding: 8px;
     }
 
     .thinking-dot {
-      width: 6px;
-      height: 6px;
+      width: 7px;
+      height: 7px;
       border-radius: 50%;
       background: var(--text-muted);
       animation: thinking 1.4s infinite ease-in-out both;
@@ -587,14 +319,10 @@
     }
 
     @keyframes thinking {
-
-      0%,
-      80%,
-      100% {
+      0%, 80%, 100% {
         transform: scale(0.6);
         opacity: 0.4;
       }
-
       40% {
         transform: scale(1);
         opacity: 1;
@@ -606,7 +334,6 @@
         opacity: 0;
         transform: translateY(10px);
       }
-
       to {
         opacity: 1;
         transform: translateY(0);
@@ -615,18 +342,22 @@
 
     /* ===== PROMPT INPUT ===== */
     .prompt-wrapper {
-      padding: 16px 20px 20px;
+      padding: 12px 20px 24px;
       flex-shrink: 0;
       display: flex;
       justify-content: center;
     }
 
-    .prompt-box {
+    .prompt-container {
       width: 100%;
       max-width: 760px;
-      background: #111111;
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 16px;
+      position: relative;
+    }
+
+    .prompt-box {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+      border-radius: 24px;
       display: flex;
       flex-direction: column;
       gap: 0;
@@ -634,15 +365,15 @@
     }
 
     .prompt-box:focus-within {
-      border-color: rgba(255, 255, 255, 0.2);
-      box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.05);
+      border-color: var(--text-muted);
+      box-shadow: 0 0 0 1px var(--border);
     }
 
     .prompt-input-row {
       display: flex;
-      align-items: center;
+      align-items: flex-end;
       gap: 8px;
-      padding: 14px 16px;
+      padding: 12px 16px;
     }
 
     .prompt-attach {
@@ -653,16 +384,21 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      width: 28px;
-      height: 28px;
-      border-radius: 6px;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
       flex-shrink: 0;
       transition: background var(--transition), color var(--transition);
     }
 
     .prompt-attach:hover {
-      background: var(--bg-hover);
+      background: var(--bg-tertiary);
       color: var(--text-secondary);
+    }
+
+    .prompt-attach svg {
+      width: 20px;
+      height: 20px;
     }
 
     .prompt-input {
@@ -677,6 +413,7 @@
       line-height: 1.5;
       max-height: 200px;
       overflow-y: auto;
+      padding: 8px 0;
       scrollbar-width: none;
     }
 
@@ -691,449 +428,722 @@
     .prompt-actions {
       display: flex;
       align-items: center;
-      gap: 6px;
-      padding: 10px 12px;
-      border-top: 1px solid var(--border);
       justify-content: space-between;
+      padding: 0 12px 10px 16px;
     }
 
-    .prompt-left-actions {
+    .prompt-left {
       display: flex;
       align-items: center;
-      gap: 4px;
     }
 
-    .prompt-right-actions {
+    .model-selector {
       display: flex;
       align-items: center;
       gap: 6px;
-    }
-
-    .model-badge {
-      display: flex;
-      align-items: center;
-      gap: 5px;
-      padding: 5px 10px;
-      background: none;
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      font-size: 12px;
-      font-weight: 500;
-      color: var(--text-secondary);
+      padding: 6px 10px;
+      background: var(--bg-tertiary);
+      border-radius: 9999px;
       cursor: pointer;
-      font-family: var(--font);
-      transition: background var(--transition), color var(--transition), border-color var(--transition);
+      transition: background var(--transition), transform 0.1s;
     }
 
-    .model-badge:hover {
+    .model-selector:hover {
       background: var(--bg-hover);
-      border-color: rgba(255, 255, 255, 0.15);
+      transform: translateY(-1px);
+    }
+
+    .model-selector span {
+      font-size: 13px;
+      font-weight: 600;
       color: var(--text-primary);
     }
 
-    .model-badge svg {
-      width: 12px;
-      height: 12px;
+    .model-selector svg {
+      width: 16px;
+      height: 16px;
+      color: var(--text-primary);
+      transition: transform var(--transition);
     }
 
-    .icon-btn {
+    .model-selector.open svg {
+      transform: rotate(180deg);
+    }
+
+    .send-btn {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: var(--text-primary);
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: opacity var(--transition), transform 0.1s;
+      flex-shrink: 0;
+    }
+
+    .send-btn:hover:not(:disabled) {
+      transform: scale(1.05);
+    }
+
+    .send-btn:active:not(:disabled) {
+      transform: scale(0.95);
+    }
+
+    .send-btn:disabled {
+      opacity: 0.3;
+      cursor: default;
+    }
+
+    .send-btn svg {
+      width: 18px;
+      height: 18px;
+      stroke: var(--bg);
+    }
+
+    /* MODEL DROPDOWN */
+    .model-dropdown {
+      position: absolute;
+      bottom: 100%;
+      left: 0;
+      margin-bottom: 12px;
+      width: 300px;
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 8px;
+      display: none;
+      z-index: 100;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+    }
+
+    .model-dropdown.open {
+      display: block;
+      animation: fadeUp 0.2s ease-out;
+    }
+
+    .model-option {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 12px;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: background var(--transition);
+    }
+
+    .model-option:hover {
+      background: var(--bg-tertiary);
+    }
+
+    .model-option-icon {
+      width: 24px;
+      height: 24px;
+      color: var(--text-secondary);
+      flex-shrink: 0;
+    }
+
+    .model-option-content {
+      flex: 1;
+    }
+
+    .model-option-name {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text-primary);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .model-option-name .check {
+      color: var(--text-primary);
+      width: 16px;
+      height: 16px;
+    }
+
+    .model-option-desc {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    .supergrok-banner {
+      margin-top: 12px;
+      padding: 12px;
+      background: var(--bg-tertiary);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .supergrok-info {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .supergrok-title {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--text-primary);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .supergrok-title svg {
+      width: 20px;
+      height: 20px;
+    }
+
+    .supergrok-desc {
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    .supergrok-btn {
+      padding: 8px 16px;
+      background: var(--text-primary);
+      color: var(--bg);
+      border: none;
+      border-radius: 9999px;
+      font-size: 13px;
+      font-weight: 600;
+      font-family: var(--font);
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    /* SETTINGS MODAL */
+    .settings-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(4px);
+      display: none;
+      z-index: 500;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .settings-overlay.open {
+      display: flex;
+      animation: fadeIn 0.2s ease-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    .settings-modal {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      width: 100%;
+      max-width: 400px;
+      overflow: hidden;
+      box-shadow: 0 25px 80px rgba(0, 0, 0, 0.5);
+      animation: slideUp 0.25s ease-out;
+    }
+
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px) scale(0.95);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    .settings-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 18px 20px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .settings-title {
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    .settings-close {
       background: none;
       border: none;
       color: var(--text-muted);
       cursor: pointer;
-      width: 32px;
-      height: 32px;
+      padding: 4px;
+      border-radius: 6px;
+      transition: background var(--transition), color var(--transition);
+    }
+
+    .settings-close:hover {
+      background: var(--bg-tertiary);
+      color: var(--text-secondary);
+    }
+
+    .settings-close svg {
+      width: 20px;
+      height: 20px;
+    }
+
+    .settings-content {
+      padding: 8px 0;
+    }
+
+    .settings-section {
+      padding: 12px 20px;
+    }
+
+    .settings-section-title {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 10px;
+    }
+
+    .settings-option {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 0;
+      cursor: pointer;
+    }
+
+    .settings-option:hover .settings-option-label {
+      color: var(--text-primary);
+    }
+
+    .settings-option-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .settings-option-icon {
+      width: 20px;
+      height: 20px;
+      color: var(--text-muted);
+    }
+
+    .settings-option-label {
+      font-size: 14px;
+      color: var(--text-secondary);
+      transition: color var(--transition);
+    }
+
+    .settings-option-right {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .theme-options {
+      display: flex;
+      gap: 4px;
+      background: var(--bg-tertiary);
+      padding: 4px;
       border-radius: 8px;
+    }
+
+    .theme-btn {
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      cursor: pointer;
+      padding: 6px 8px;
+      border-radius: 6px;
       display: flex;
       align-items: center;
       justify-content: center;
       transition: background var(--transition), color var(--transition);
     }
 
-    .icon-btn:hover {
+    .theme-btn:hover {
       background: var(--bg-hover);
       color: var(--text-secondary);
     }
 
-    .icon-btn svg {
+    .theme-btn.active {
+      background: var(--bg);
+      color: var(--text-primary);
+    }
+
+    .theme-btn svg {
       width: 16px;
       height: 16px;
     }
 
-    .send-btn {
-      width: 32px;
-      height: 32px;
-      border-radius: 8px;
-      background: white;
-      border: none;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: background var(--transition), opacity var(--transition), transform 0.1s;
-      flex-shrink: 0;
+    .settings-option-arrow {
+      width: 16px;
+      height: 16px;
+      color: var(--text-muted);
     }
 
-    .send-btn:hover {
-      background: #e4e4e7;
-      transform: scale(1.05);
+    .settings-divider {
+      height: 1px;
+      background: var(--border);
+      margin: 4px 0;
     }
 
-    .send-btn:active {
-      transform: scale(0.97);
-    }
-
-    .send-btn:disabled {
-      opacity: 0.3;
-      cursor: default;
-      transform: none;
-    }
-
-    .send-btn svg {
-      width: 14px;
-      height: 14px;
-      stroke: black;
-    }
-
-    /* Disclaimer */
+    /* DISCLAIMER */
     .disclaimer {
       text-align: center;
       font-size: 11px;
       color: var(--text-muted);
-      padding: 0 20px 12px;
+      padding-bottom: 12px;
     }
 
-    /* Model selector dropdown */
-    .model-dropdown {
-      position: absolute;
-      bottom: 130px;
+    /* TOAST */
+    #toast {
+      position: fixed;
+      bottom: 28px;
       left: 50%;
-      transform: translateX(-50%);
-      width: 280px;
-      background: #111111;
+      transform: translateX(-50%) translateY(20px);
+      background: var(--bg-secondary);
       border: 1px solid var(--border);
       border-radius: 12px;
-      padding: 6px;
-      display: none;
-      z-index: 50;
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
-    }
-
-    .model-dropdown.open {
-      display: block;
-      animation: fadeUp 0.15s ease-out;
-    }
-
-    .model-option {
-      padding: 10px 12px;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: background var(--transition);
-    }
-
-    .model-option:hover {
-      background: var(--bg-hover);
-    }
-
-    .model-option-name {
+      padding: 12px 20px;
       font-size: 13px;
-      font-weight: 600;
-      color: var(--text-primary);
-      margin-bottom: 2px;
-    }
-
-    .model-option-desc {
-      font-size: 11px;
-      color: var(--text-muted);
-    }
-
-    .model-option.selected .model-option-name::after {
-      content: ' ✓';
       color: var(--text-secondary);
-    }
-
-    /* Recording pulse */
-    .icon-btn.recording {
-      color: #ef4444;
-      background: rgba(239, 68, 68, 0.1);
-      animation: pulse 1.5s infinite;
-    }
-
-    @keyframes pulse {
-
-      0%,
-      100% {
-        box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.3);
-      }
-
-      50% {
-        box-shadow: 0 0 0 6px rgba(239, 68, 68, 0);
-      }
-    }
-
-    /* Scrollbar thin global */
-    * {
-      scrollbar-width: thin;
-      scrollbar-color: rgba(255, 255, 255, 0.08) transparent;
+      opacity: 0;
+      transition: all 0.3s ease;
+      pointer-events: none;
+      white-space: nowrap;
+      z-index: 1000;
     }
   </style>
 </head>
 
 <body>
-
   <div class="app">
+    <!-- TOP BAR -->
+    <div class="topbar">
+      <div class="topbar-left">
+        <a class="topbar-logo" href="index.html" title="Back to home">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9V8h2v8zm4 0h-2V8h2v8z"/>
+          </svg>
+        </a>
+      </div>
+      <div class="topbar-right">
+        <button class="topbar-btn" onclick="showToastMsg('Imagine feature coming soon')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="3" width="18" height="18" rx="2"/>
+            <circle cx="8.5" cy="8.5" r="1.5"/>
+            <path d="m21 15-5-5L5 21"/>
+          </svg>
+          Imagine
+        </button>
+        <button class="topbar-btn" onclick="toggleSettings()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"/>
+            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1Z"/>
+          </svg>
+        </button>
+        <button class="topbar-btn" onclick="showToastMsg('Sign in coming soon')">
+          Sign in
+        </button>
+        <button class="topbar-btn" style="background: white; color: black;" onclick="showToastMsg('Sign up coming soon')">
+          Sign up
+        </button>
+      </div>
+    </div>
 
-    <!-- ====== SIDEBAR ====== -->
-    <aside class="sidebar" id="sidebar">
-      <div class="sidebar-inner">
-
-        <!-- Logo + Collapse -->
-        <div class="sidebar-topbar">
-          <a class="sidebar-logo" href="index.html" title="Back to home">
-            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-              <path
-                d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9V8h2v8zm4 0h-2V8h2v8z" />
-            </svg>
-          </a>
-          <button class="collapse-btn" id="collapseBtn" title="Collapse sidebar">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M11 19l-7-7 7-7M18 19l-7-7 7-7" />
-            </svg>
-          </button>
+    <!-- MAIN CHAT AREA -->
+    <div class="chat-area">
+      <!-- WELCOME SCREEN -->
+      <div class="welcome" id="welcome">
+        <div class="welcome-logo">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9V8h2v8zm4 0h-2V8h2v8z"/>
+          </svg>
+          <span class="welcome-logo-text">Aether</span>
         </div>
+        <div class="suggestions">
+          <div class="suggestion-pill" onclick="sendSuggestion(this)">Explain quantum computing</div>
+          <div class="suggestion-pill" onclick="sendSuggestion(this)">Write a Python function</div>
+          <div class="suggestion-pill" onclick="sendSuggestion(this)">Summarize a document</div>
+          <div class="suggestion-pill" onclick="sendSuggestion(this)">Solve a math problem</div>
+          <div class="suggestion-pill" onclick="sendSuggestion(this)">Translate to Spanish</div>
+          <div class="suggestion-pill" onclick="sendSuggestion(this)">Analyze this image</div>
+        </div>
+      </div>
 
-        <!-- Nav Items -->
-        <nav class="sidebar-nav">
-          <div class="nav-item" onclick="clearChat()">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <circle cx="11" cy="11" r="8" />
-              <path d="m21 21-4.35-4.35" />
-            </svg>
-            Search
-          </div>
-          <div class="nav-item active" id="newChatBtn" onclick="clearChat()">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
-            </svg>
-            New Chat
-          </div>
-          <div class="nav-item" onclick="showToastMsg('Imagine feature coming soon')">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <rect x="3" y="3" width="18" height="18" rx="2" />
-              <circle cx="8.5" cy="8.5" r="1.5" />
-              <path d="m21 15-5-5L5 21" />
-            </svg>
-            Imagine
-            <span class="nav-dot"></span>
-          </div>
-          <div class="nav-item" onclick="showToastMsg('Skills & Connectors coming soon')">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
-            </svg>
-            Skills and Connectors
-          </div>
-        </nav>
+      <!-- MESSAGES -->
+      <div class="messages" id="messages" style="display: none;"></div>
+    </div>
 
-        <!-- Projects Section -->
-        <div class="sidebar-section">
-          <div class="section-header open" id="projectsHeader"
-            onclick="toggleSection('projectsHeader', 'projectsBody')">
-            Projects
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-              <path d="m6 9 6 6 6-6" />
+    <!-- PROMPT INPUT -->
+    <div class="prompt-wrapper">
+      <div class="prompt-container">
+        <!-- MODEL DROPDOWN -->
+        <div class="model-dropdown" id="modelDropdown">
+          <div class="model-option" onclick="selectModel('Fast', this)">
+            <svg class="model-option-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M12 13a4 4 0 1 0 0-8 4 4 0 0 0 0 8Z"/>
+              <path d="M12 3v1"/>
+              <path d="M12 20v1"/>
+              <path d="M4.93 4.93l.71.71"/>
+              <path d="M18.36 18.36l.71.71"/>
+              <path d="M3 12h1"/>
+              <path d="M20 12h1"/>
+              <path d="M6.34 17.66l-.71.71"/>
+              <path d="M19.77 5.63l-.71.71"/>
             </svg>
-          </div>
-          <div id="projectsBody">
-            <div class="section-action" onclick="showToastMsg('Creating new project...')">
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                <path d="M12 5v14M5 12h14" />
-              </svg>
-              New Project
+            <div class="model-option-content">
+              <div class="model-option-name">
+                <span>Fast</span>
+                <svg class="check" id="checkFast" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                  <path d="M20 6 9 17l-5-5"/>
+                </svg>
+              </div>
+              <div class="model-option-desc">Quick responses</div>
             </div>
           </div>
-        </div>
-
-        <!-- History Section -->
-        <div class="sidebar-section" style="margin-bottom: 4px;">
-          <div class="section-header open" id="historyHeader" onclick="toggleSection('historyHeader', 'historyBody')">
-            History
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-              <path d="m6 9 6 6 6-6" />
+          <div class="model-option" onclick="selectModel('Auto', this)">
+            <svg class="model-option-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M4.5 4.5 12 12l7.5-7.5"/>
+              <path d="M4.5 19.5 12 12l7.5 7.5"/>
+              <path d="M12 2v3"/>
+              <path d="M12 19v3"/>
+              <path d="M2 12h3"/>
+              <path d="M19 12h3"/>
             </svg>
+            <div class="model-option-content">
+              <div class="model-option-name">
+                <span>Auto</span>
+                <svg class="check" id="checkAuto" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" style="display: none;">
+                  <path d="M20 6 9 17l-5-5"/>
+                </svg>
+              </div>
+              <div class="model-option-desc">Chooses Fast or Expert</div>
+            </div>
           </div>
-        </div>
-
-        <div id="historyBody" class="history-list">
-          <div class="history-item" onclick="loadHistory(this)">Chain-of-Thought Reasoning Demo</div>
-          <div class="history-item" onclick="loadHistory(this)">Write a Python data pipeline</div>
-          <div class="history-item" onclick="loadHistory(this)">Analyze UI screenshot feedback</div>
-          <div class="history-item" onclick="loadHistory(this)">Summarize research paper</div>
-          <div class="history-item" onclick="loadHistory(this)">Solve differential equations</div>
-          <div class="history-item" onclick="loadHistory(this)">Translate marketing copy to FR</div>
-          <div class="history-item" onclick="loadHistory(this)">Debug React hydration error</div>
-          <div class="history-item" onclick="loadHistory(this)">Write blog post on LLMs</div>
-          <div class="history-item" onclick="loadHistory(this)">Explain transformer attention</div>
-          <div class="history-item" onclick="loadHistory(this)">SQL query optimization tips</div>
-          <div class="see-all" onclick="showToastMsg('Loading full history...')">See all</div>
-        </div>
-
-        <!-- User -->
-        <div class="sidebar-user" onclick="showToastMsg('Opening account settings...')">
-          <div class="user-avatar">AP</div>
-          <div class="user-info">
-            <div class="user-name">Atharv Pokale</div>
-            <div class="user-email">atharvpokale10@gmail.com</div>
-          </div>
-        </div>
-
-      </div>
-    </aside>
-
-    <!-- ====== MAIN CONTENT ====== -->
-    <main class="main">
-
-      <!-- Top bar -->
-      <div class="topbar">
-        <div class="topbar-left">
-          <button class="expand-btn" id="expandBtn" title="Expand sidebar" style="display:none;"
-            onclick="expandSidebar()">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="m13 19 7-7-7-7M6 19l7-7-7-7" />
+          <div class="model-option" onclick="selectModel('Expert', this)">
+            <svg class="model-option-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/>
+              <path d="M12 17h.01"/>
+              <path d="M20.04 15.02a9 9 0 1 1-16.08-6"/>
             </svg>
-          </button>
-        </div>
-        <div class="topbar-right">
-          <button class="private-btn" onclick="showToastMsg('Private mode toggled')">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <rect x="3" y="11" width="18" height="11" rx="2" />
-              <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+            <div class="model-option-content">
+              <div class="model-option-name">
+                <span>Expert</span>
+                <svg class="check" id="checkExpert" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" style="display: none;">
+                  <path d="M20 6 9 17l-5-5"/>
+                </svg>
+              </div>
+              <div class="model-option-desc">Thinks hard</div>
+            </div>
+          </div>
+          <div class="model-option" onclick="selectModel('Heavy', this)">
+            <svg class="model-option-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
+              <path d="M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8Z"/>
+              <path d="M22 21v-2a4 4 0 0 0-3-3.87"/>
+              <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
             </svg>
-            Private
-          </button>
-        </div>
-      </div>
-
-      <!-- Chat Area -->
-      <div class="chat-area">
-
-        <!-- Welcome / Center State -->
-        <div class="welcome" id="welcome">
-          <div class="welcome-logo">
-            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-              <path
-                d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9V8h2v8zm4 0h-2V8h2v8z" />
-            </svg>
-            <span class="welcome-logo-text">Aether</span>
+            <div class="model-option-content">
+              <div class="model-option-name">
+                <span>Heavy</span>
+                <svg class="check" id="checkHeavy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" style="display: none;">
+                  <path d="M20 6 9 17l-5-5"/>
+                </svg>
+              </div>
+              <div class="model-option-desc">Team of Experts</div>
+            </div>
           </div>
-
-          <div class="suggestions">
-            <div class="suggestion-pill" onclick="sendSuggestion(this)">Explain quantum computing</div>
-            <div class="suggestion-pill" onclick="sendSuggestion(this)">Write a Python function</div>
-            <div class="suggestion-pill" onclick="sendSuggestion(this)">Summarize a document</div>
-            <div class="suggestion-pill" onclick="sendSuggestion(this)">Solve a math problem</div>
-            <div class="suggestion-pill" onclick="sendSuggestion(this)">Translate to Spanish</div>
-            <div class="suggestion-pill" onclick="sendSuggestion(this)">Analyze this image</div>
+          <div class="supergrok-banner">
+            <div class="supergrok-info">
+              <div class="supergrok-title">
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
+                  <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9V8h2v8zm4 0h-2V8h2v8z"/>
+                </svg>
+                SuperAether
+              </div>
+              <div class="supergrok-desc">Unlock extended capabilities</div>
+            </div>
+            <button class="supergrok-btn" onclick="showToastMsg('SuperAether coming soon')">
+              Sign in
+            </button>
           </div>
         </div>
 
-        <!-- Messages -->
-        <div class="messages" id="messages" style="display: none;"></div>
-
-        <!-- Model Dropdown -->
-        <div class="model-dropdown" id="modelDropdown">
-          <div class="model-option selected" onclick="selectModel('Aether Fast', this)">
-            <div class="model-option-name">Aether Fast</div>
-            <div class="model-option-desc">Fast responses, great for everyday tasks</div>
-          </div>
-          <div class="model-option" onclick="selectModel('Aether Pro', this)">
-            <div class="model-option-name">Aether Pro</div>
-            <div class="model-option-desc">Advanced reasoning and complex analysis</div>
-          </div>
-          <div class="model-option" onclick="selectModel('Aether DeepThink', this)">
-            <div class="model-option-name">Aether DeepThink</div>
-            <div class="model-option-desc">Slow, methodical chain-of-thought reasoning</div>
-          </div>
-        </div>
-
-      </div>
-
-      <!-- Prompt Input -->
-      <div class="prompt-wrapper">
         <div class="prompt-box" id="promptBox">
           <div class="prompt-input-row">
             <button class="prompt-attach" title="Attach file" onclick="document.getElementById('fileInput').click()">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path
-                  d="m21.44 11.05-9.19 9.19a6 6 0 0 1-8.49-8.49l8.57-8.57A4 4 0 1 1 18 8.84l-8.59 8.57a2 2 0 0 1-2.83-2.83l8.49-8.48" />
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 21a9.004 9.004 0 0 0 8.716-6.744M12 21a9.004 9.004 0 0 1-8.716-6.744M12 21v-6m0 0v-2.998c0-.53 0-.796.047-1.03a2 2 0 0 1 1.523-1.523c.234-.047.5-.047 1.03-.047h1.394M12 9V7.002c0-.53 0-.796-.047-1.03a2 2 0 0 0-1.523-1.523c-.234-.047-.5-.047-1.03-.047H8.006"/>
+                <path d="M12 3v2.998c0 .53 0 .796.047 1.03a2 2 0 0 0 1.523 1.523c.234.047.5.047 1.03.047H16"/>
+                <path d="M3.284 9.744A9.004 9.004 0 0 1 12 3"/>
+                <path d="M20.716 9.744A9.004 9.004 0 0 0 12 3"/>
               </svg>
             </button>
             <input type="file" id="fileInput" style="display:none" onchange="handleFile(this)">
-            <textarea class="prompt-input" id="promptInput" placeholder="How can I help you today?" rows="1"
+            <textarea class="prompt-input" id="promptInput" placeholder="What do you want to know?" rows="1"
               onkeydown="handleKey(event)" oninput="autoResize(this)"></textarea>
             <button class="send-btn" id="sendBtn" onclick="sendMessage()" title="Send" disabled>
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"
                 stroke-linejoin="round">
-                <path d="M12 19V5M5 12l7-7 7 7" />
+                <path d="M12 19V5M5 12l7-7 7 7"/>
               </svg>
             </button>
           </div>
           <div class="prompt-actions">
-            <div class="prompt-left-actions">
-              <button class="model-badge" id="modelBadge" onclick="toggleModelDropdown()">
+            <div class="prompt-left">
+              <div class="model-selector" id="modelBadge" onclick="toggleModelDropdown()">
+                <span id="modelName">Fast</span>
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <path d="m6 9 6 6 6-6" />
+                  <path d="m6 9 6 6 6-6"/>
                 </svg>
-                <span id="modelName">Aether Fast</span>
-              </button>
+              </div>
             </div>
-            <div class="prompt-right-actions">
-              <button class="icon-btn" id="micBtn" title="Voice input" onclick="toggleRecording()">
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="disclaimer">By messaging Aether, you agree to our Terms and Privacy Policy.</div>
+  </div>
+
+  <!-- SETTINGS MODAL -->
+  <div class="settings-overlay" id="settingsOverlay" onclick="closeSettingsOverlay(event)">
+    <div class="settings-modal" onclick="event.stopPropagation()">
+      <div class="settings-header">
+        <div class="settings-title">Settings</div>
+        <button class="settings-close" onclick="toggleSettings()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M18 6 6 18M6 6l12 12"/>
+          </svg>
+        </button>
+      </div>
+      <div class="settings-content">
+        <div class="settings-section">
+          <div class="settings-section-title">Appearance</div>
+          <div class="settings-option">
+            <div class="settings-option-left">
+              <svg class="settings-option-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>
+              </svg>
+              <span class="settings-option-label">Theme</span>
+            </div>
+            <div class="theme-options">
+              <button class="theme-btn" id="themeLight" onclick="setTheme('light')" title="Light">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z" />
-                  <path d="M19 10v2a7 7 0 0 1-14 0v-2M12 19v4M8 23h8" />
+                  <circle cx="12" cy="12" r="5"/>
+                  <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
                 </svg>
               </button>
-              <button class="icon-btn" title="Deep search" onclick="showToastMsg('Deep search activated')">
+              <button class="theme-btn" id="themeDark" onclick="setTheme('dark')" title="Dark">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <circle cx="11" cy="11" r="8" />
-                  <path d="m21 21-4.35-4.35" />
-                  <path d="M11 8v6M8 11h6" />
+                  <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>
+                </svg>
+              </button>
+              <button class="theme-btn" id="themeSystem" onclick="setTheme('system')" title="System">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="2" y="3" width="20" height="14" rx="2"/>
+                  <path d="M8 21h8M12 17v4"/>
                 </svg>
               </button>
             </div>
           </div>
         </div>
+        <div class="settings-divider"></div>
+        <div class="settings-section">
+          <div class="settings-section-title">Language</div>
+          <div class="settings-option" onclick="showToastMsg('Language selector coming soon')">
+            <div class="settings-option-left">
+              <svg class="settings-option-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="m5 8 6 6"/>
+                <path d="m4 14 6-6 2-3"/>
+                <path d="M2 5h12"/>
+                <path d="M7 2h1"/>
+                <path d="m22 22-5-10-5 10"/>
+                <path d="M14 18h6"/>
+              </svg>
+              <span class="settings-option-label">English</span>
+            </div>
+            <svg class="settings-option-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="m9 18 6-6-6-6"/>
+            </svg>
+          </div>
+        </div>
+        <div class="settings-divider"></div>
+        <div class="settings-section">
+          <div class="settings-option" onclick="showToastMsg('Report issue coming soon')">
+            <div class="settings-option-left">
+              <svg class="settings-option-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 9v4"/>
+                <path d="M12 17h.01"/>
+                <path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+              </svg>
+              <span class="settings-option-label">Report an issue</span>
+            </div>
+            <svg class="settings-option-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="m9 18 6-6-6-6"/>
+            </svg>
+          </div>
+        </div>
       </div>
-      <div class="disclaimer">Aether can make mistakes. Verify important information.</div>
-
-    </main>
+    </div>
   </div>
 
-  <!-- Toast -->
-  <div id="toast" style="
-  position: fixed; bottom: 28px; left: 50%; transform: translateX(-50%) translateY(20px);
-  background: #1a1a1a; border: 1px solid rgba(255,255,255,0.1); border-radius: 10px;
-  padding: 10px 20px; font-size: 13px; color: #a1a1aa;
-  opacity: 0; transition: all 0.3s ease; pointer-events: none; white-space: nowrap; z-index: 1000;
-"></div>
+  <!-- TOAST -->
+  <div id="toast"></div>
 
   <script>
-    // ---- State ----
-    let sidebarOpen = true;
     let recording = false;
     let thinking = false;
-    let currentModel = 'Aether Fast';
+    let currentModel = 'Fast';
     let hasMessages = false;
+    let currentTheme = localStorage.getItem('theme') || 'dark';
 
     const promptInput = document.getElementById('promptInput');
     const sendBtn = document.getElementById('sendBtn');
     const messagesEl = document.getElementById('messages');
     const welcomeEl = document.getElementById('welcome');
-    const sidebar = document.getElementById('sidebar');
-    const collapseBtn = document.getElementById('collapseBtn');
-    const expandBtn = document.getElementById('expandBtn');
 
-    // ---- Input enable/disable ----
+    function initTheme() {
+      setTheme(currentTheme, false);
+    }
+
+    function setTheme(theme, save = true) {
+      currentTheme = theme;
+      if (save) {
+        localStorage.setItem('theme', theme);
+      }
+
+      let appliedTheme = theme;
+      if (theme === 'system') {
+        appliedTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      }
+
+      document.documentElement.setAttribute('data-theme', appliedTheme);
+
+      document.querySelectorAll('.theme-btn').forEach(btn => btn.classList.remove('active'));
+      document.getElementById('theme' + theme.charAt(0).toUpperCase() + theme.slice(1)).classList.add('active');
+    }
+
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
+      if (currentTheme === 'system') {
+        setTheme('system', false);
+      }
+    });
+
     promptInput.addEventListener('input', () => {
       sendBtn.disabled = promptInput.value.trim().length === 0;
     });
@@ -1150,79 +1160,44 @@
       }
     }
 
-    // ---- Sidebar ----
-    collapseBtn.addEventListener('click', () => {
-      sidebar.classList.add('collapsed');
-      expandBtn.style.display = 'flex';
-      sidebarOpen = false;
-    });
-
-    function expandSidebar() {
-      sidebar.classList.remove('collapsed');
-      expandBtn.style.display = 'none';
-      sidebarOpen = true;
-    }
-
-    // ---- Section toggle ----
-    function toggleSection(headerId, bodyId) {
-      const header = document.getElementById(headerId);
-      const body = document.getElementById(bodyId);
-      header.classList.toggle('open');
-      body.style.display = body.style.display === 'none' ? '' : 'none';
-    }
-
-    // ---- Clear / New Chat ----
     function clearChat() {
       messagesEl.innerHTML = '';
       messagesEl.style.display = 'none';
-      welcomeEl.classList.remove('hidden');
       welcomeEl.style.display = 'flex';
+      welcomeEl.classList.remove('hidden');
       hasMessages = false;
       promptInput.value = '';
       sendBtn.disabled = true;
-      document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-      document.getElementById('newChatBtn').classList.add('active');
+      autoResize(promptInput);
       showToastMsg('New chat started');
     }
 
-    // ---- Load history ----
-    function loadHistory(el) {
-      const text = el.textContent;
-      clearChatSilent();
-      addMessage('user', text);
-      simulateAIResponse('Here is my response to: ' + text);
-    }
-
-    function clearChatSilent() {
-      messagesEl.innerHTML = '';
-      hasMessages = false;
-    }
-
-    // ---- Suggestion pills ----
     function sendSuggestion(el) {
       const text = el.textContent;
       promptInput.value = text;
+      sendBtn.disabled = false;
+      autoResize(promptInput);
       sendMessage();
     }
 
-    // ---- Send Message ----
     function sendMessage() {
       const text = promptInput.value.trim();
       if (!text || thinking) return;
 
-      // Show messages, hide welcome
       if (!hasMessages) {
-        welcomeEl.style.display = 'none';
-        messagesEl.style.display = 'flex';
+        welcomeEl.classList.add('hidden');
+        setTimeout(() => {
+          welcomeEl.style.display = 'none';
+          messagesEl.style.display = 'flex';
+        }, 300);
         hasMessages = true;
       }
 
       addMessage('user', text);
       promptInput.value = '';
-      promptInput.style.height = 'auto';
+      autoResize(promptInput);
       sendBtn.disabled = true;
 
-      // Simulate AI
       simulateAIResponse(generateResponse(text));
     }
 
@@ -1253,7 +1228,6 @@
     function simulateAIResponse(response) {
       thinking = true;
 
-      // Thinking indicator
       const thinkDiv = document.createElement('div');
       thinkDiv.className = 'message ai';
       thinkDiv.id = 'thinkingMsg';
@@ -1294,7 +1268,7 @@
       messagesEl.appendChild(div);
 
       let i = 0;
-      const speed = 14;
+      const speed = 15;
 
       const interval = setInterval(() => {
         if (i < text.length) {
@@ -1313,7 +1287,7 @@
       const p = prompt.toLowerCase();
 
       if (p.includes('python') || p.includes('code') || p.includes('function') || p.includes('debug')) {
-        return `Here's a clean Python implementation:\n\n\`\`\`python\ndef process_data(items: list[str]) -> dict:\n    """Process and categorize input items.\"\"\"\n    result = {}\n    for item in items:\n        key = item.strip().lower()\n        result[key] = result.get(key, 0) + 1\n    return dict(sorted(result.items()))\n\`\`\`\n\nThis function takes a list of strings, normalizes them, counts occurrences, and returns a sorted dictionary. Time complexity is O(n log n) for the final sort. Let me know if you need any modifications or edge case handling.`;
+        return `Here's a clean Python implementation:\n\n\`\`\`python\ndef process_data(items: list[str]) -> dict:\n    """Process and categorize input items."""\n    result = {}\n    for item in items:\n        key = item.strip().lower()\n        result[key] = result.get(key, 0) + 1\n    return dict(sorted(result.items()))\n\`\`\`\n\nThis function takes a list of strings, normalizes them, counts occurrences, and returns a sorted dictionary. Time complexity is O(n log n) for the final sort. Let me know if you need any modifications or edge case handling.`;
       }
       if (p.includes('quantum') || p.includes('physics')) {
         return `Quantum computing harnesses quantum mechanical phenomena — superposition and entanglement — to process information in fundamentally different ways than classical computers.\n\nIn a classical bit, information is either 0 or 1. A qubit can exist as both simultaneously (superposition), enabling parallel computation across exponential solution spaces. Entanglement links qubits so that measuring one instantly determines the state of another, regardless of distance.\n\nPractical applications include cryptography (Shor's algorithm), molecular simulation for drug discovery, and optimization problems in logistics and finance.`;
@@ -1334,70 +1308,64 @@
       return `I've analyzed your prompt and here's my response.\n\nAether is designed to handle complex, multi-faceted queries like this one. My reasoning process considered several angles before formulating this answer to ensure accuracy and completeness.\n\nWould you like me to dive deeper into any specific aspect, or shall we explore a related topic?`;
     }
 
-    // ---- Model selector ----
     function toggleModelDropdown() {
-      document.getElementById('modelDropdown').classList.toggle('open');
+      const dropdown = document.getElementById('modelDropdown');
+      const badge = document.getElementById('modelBadge');
+      dropdown.classList.toggle('open');
+      badge.classList.toggle('open');
     }
 
     function selectModel(name, el) {
       currentModel = name;
       document.getElementById('modelName').textContent = name;
-      document.querySelectorAll('.model-option').forEach(o => o.classList.remove('selected'));
-      el.classList.add('selected');
+      
+      document.getElementById('checkFast').style.display = name === 'Fast' ? 'block' : 'none';
+      document.getElementById('checkAuto').style.display = name === 'Auto' ? 'block' : 'none';
+      document.getElementById('checkExpert').style.display = name === 'Expert' ? 'block' : 'none';
+      document.getElementById('checkHeavy').style.display = name === 'Heavy' ? 'block' : 'none';
+
       document.getElementById('modelDropdown').classList.remove('open');
+      document.getElementById('modelBadge').classList.remove('open');
       showToastMsg('Model: ' + name);
     }
 
     document.addEventListener('click', (e) => {
       if (!e.target.closest('#modelBadge') && !e.target.closest('#modelDropdown')) {
         document.getElementById('modelDropdown').classList.remove('open');
+        document.getElementById('modelBadge').classList.remove('open');
       }
     });
 
-    // ---- Recording ----
-    function toggleRecording() {
-      const btn = document.getElementById('micBtn');
-      if (!recording) {
-        recording = true;
-        btn.classList.add('recording');
-        showToastMsg('Listening...');
-        setTimeout(() => {
-          recording = false;
-          btn.classList.remove('recording');
-          promptInput.value = 'Explain how neural networks learn from data';
-          sendBtn.disabled = false;
-          autoResize(promptInput);
-          showToastMsg('Voice input captured');
-        }, 3000);
-      } else {
-        recording = false;
-        btn.classList.remove('recording');
+    function toggleSettings() {
+      const overlay = document.getElementById('settingsOverlay');
+      overlay.classList.toggle('open');
+    }
+
+    function closeSettingsOverlay(e) {
+      if (e.target.id === 'settingsOverlay') {
+        toggleSettings();
       }
     }
 
-    // ---- File handler ----
     function handleFile(input) {
-      if (input.files.length) {
-        const name = input.files[0].name;
-        promptInput.value = `[File attached: ${name}] Please analyze this document.`;
-        sendBtn.disabled = false;
-        autoResize(promptInput);
-        showToastMsg(`Attached: ${name}`);
+      if (input.files && input.files.length > 0) {
+        showToastMsg('Attached: ' + input.files[0].name);
       }
     }
 
-    // ---- Toast ----
-    function showToastMsg(msg) {
-      const t = document.getElementById('toast');
-      t.textContent = msg;
-      t.style.opacity = '1';
-      t.style.transform = 'translateX(-50%) translateY(0)';
-      clearTimeout(window._toastTimeout);
-      window._toastTimeout = setTimeout(() => {
-        t.style.opacity = '0';
-        t.style.transform = 'translateX(-50%) translateY(20px)';
+    function showToastMsg(message) {
+      const toast = document.getElementById('toast');
+      toast.textContent = message;
+      toast.style.opacity = '1';
+      toast.style.transform = 'translateX(-50%) translateY(0)';
+      
+      setTimeout(() => {
+        toast.style.opacity = '0';
+        toast.style.transform = 'translateX(-50%) translateY(20px)';
       }, 2500);
     }
+
+    initTheme();
   </script>
 </body>
 
